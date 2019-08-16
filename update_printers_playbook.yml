@@ -26,6 +26,6 @@
 
   - name: update task per printer
     include_tasks: "ansible_tasks/{{ current_printer.model| default(printer_model) }}.yml"
-    loop: "{{ printer }}"
+    loop: printer
     loop_control:
       loop_var: current_printer
