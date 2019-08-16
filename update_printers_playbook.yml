@@ -9,7 +9,7 @@
     pause:
       prompt: "Please enter the printer password: "
       echo: false
-    when: "{{ lookup('env', 'PRINTER_PASSWORD') }} is not defined"
+    when: " lookup('env', 'PRINTER_PASSWORD') is not defined"
     register: printer_password
     no_log: true    # disable logging for password prompt
     tags:
@@ -19,13 +19,13 @@
     pause:
       prompt: "Please enter the firmware path"
       echo: true
-    when: "{{ lookup('env', 'PRINTER_FIRMWARE') }} is not defined"
+    when: "lookup('env', 'PRINTER_FIRMWARE') is not defined"
     register: printer_firmware
     tags:
       - user_interactive
 
   - name: update task per printer
     include_tasks: "ansible_tasks/{{ current_printer.model| default(printer_model) }}.yml"
-    loop: printer
+    loop: "{{ printer }}"
     loop_control:
       loop_var: current_printer
