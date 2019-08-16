@@ -20,4 +20,5 @@
     url: "http://{{ current_printer.ip }}/cgi-bin/postpf/cgi-bin/dynamicpf/pf/config/gen/code_update.html"
     method: POST
     src: "{{ printer_firmware |default(lookup('env', 'PRINTER_FIRMWARE')) }}"
-
+    headers:
+      Cookie: "{{ login.set_cookie }}"
