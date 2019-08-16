@@ -8,9 +8,19 @@
   - name: get printer password
     pause:
       prompt: "Please enter the printer password: "
-      echo:
+      echo: false
     when: "{{ lookup('env', 'PRINTER_PASSWORD') }} is not defined"
     register: printer_password
+    no_log: true    # disable logging for password prompt
+    tags:
+      - user_interactive
+
+  - name: get printer password
+    pause:
+      prompt: "Please enter the firmware path"
+      echo: true
+    when: "{{ lookup('env', 'PRINTER_FIRMWARE') }} is not defined"
+    register: printer_firmware
     tags:
       - user_interactive
 
@@ -19,4 +29,3 @@
     loop: "{{ printer }}"
     loop_control:
       loop_var: current_printer
-
