@@ -1,0 +1,22 @@
+---
+# https://docs.ansible.com/ansible/latest/user_guide/playbooks_prompts.html
+
+- hosts: localhost
+  tasks:
+
+  # https://stackoverflow.com/questions/25466675/ansible-to-conditionally-prompt-for-a-variable
+  - name: get printer password
+    pause:
+      prompt: "Please enter the printer password: "
+      echo:
+    when: "{{ lookup('env', 'PRINTER_PASSWORD') }} is not defined"
+    register: printer_password
+    tags:
+      - user_interactive
+
+    - name: update task per printer
+      include_tasks: "ansible_tasks/{{ current_printer.model| default(printer_model) }}.yml"
+      loop: "{{ printer }}"
+      loop_control:
+        loop_var: current_printer
+

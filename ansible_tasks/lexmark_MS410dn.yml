@@ -1,0 +1,23 @@
+---
+# sources
+# https://docs.ansible.com/ansible/latest/modules/uri_module.html
+
+# get the needed vars from the environment or the user
+# https://docs.ansible.com/ansible/latest/plugins/lookup/env.html
+
+- name: get the login cookie
+  uri:
+    url: "http://{{current_printer.ip }}}/cgi-bin/posttest/printer/login.html"
+    method: POST
+    body_format: form-urlencoded
+    body:
+      login_type: "password_only"
+      password: "{{ printer_password | default(lookup('env', 'PRINTER_PASSWORD')) }}"
+  register: login
+
+- name: push new firmware
+  uri:
+    url: "http://{{ current_printer.ip }}/cgi-bin/postpf/cgi-bin/dynamicpf/pf/config/gen/code_update.html"
+    method: POST
+    src: "{{ printer_firmware_path }}"
+
