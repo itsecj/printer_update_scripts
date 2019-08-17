@@ -7,7 +7,7 @@
 
 - name: get the login cookie
   uri:
-    url: "http://{{current_printer.ip|default(current_printer) }}}/cgi-bin/posttest/printer/login.html"
+    url: "http://{{current_printer.ip|default(current_printer) }}/cgi-bin/posttest/printer/login.html"
     method: POST
     body_format: form-urlencoded
     body:
